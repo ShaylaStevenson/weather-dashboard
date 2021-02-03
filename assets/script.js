@@ -43,6 +43,27 @@ $(document).ready(function() {
                 console.log('temp ' + data.main.temp); 
                 console.log('longitude ' + data.coord.lon);
                 console.log('latitude ' + data.coord.lat);
+
+                 //display the weather icon
+                 var iconCode = data.weather[0].icon;
+                 console.log('iconCode value ' + iconCode);
+                 var iconUrl = 'https://openweathermap.org/img/w/' + iconCode + '.png';
+                 var imgEl = $('<img>').attr('src', iconUrl);
+                 currentResults.append(imgEl);
+ 
+             })
+ 
+                 //clear current-results for new content
+                 currentResults.empty();
+ 
+                 //create html elements
+                 var titleEl = $('<h3>');
+                 var cardEl = $('<div>');
+                 var cardBodyEL = $('<div>');
+                 var windEl = $('<p>');
+                 var humidityEl = $('<p>');
+                 var tempEl = $('<p>');
+                 var imgEl = $('<img>');
                 //clear current-results for new content
                 currentResults.empty();
 
