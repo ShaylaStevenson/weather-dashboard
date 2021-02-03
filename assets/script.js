@@ -73,34 +73,4 @@ $(document).ready(function() {
 })
 
 
-//gets the "current api"
-// var requestCurrentUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey;
-// var currentResultsEl = $('#current-results');
-
-//history list
-
-//create html elements for display
-// function printResults(resultObj) {
-//     console.log(resultObj);
-
-//     var resultCard = $("<div>");
-//     resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
-
-//     var resultBody = $("<div>");
-//     resultBody.classList.add('card-body');
-//     resultCard.append(resultBody);
-
-//     var titleEl = $('<h3>');
-//     titleEl.textContent = resultObj.city;
-
-//     var bodyContentEl = $('<p>');
-//     bodyContentEl.innerHTML +=
-//         '<strong> Date: ' + resultObj.date + '</strong><br/>';
-// }
-
-        //not complete
-
-
-
-
 
