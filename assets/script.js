@@ -64,6 +64,38 @@ $(document).ready(function() {
                  var humidityEl = $('<p>');
                  var tempEl = $('<p>');
                  var imgEl = $('<img>');
+
+                 //append
+                currentResults.append(titleEl);
+                titleEl.append(cardEl);
+                cardEl.append(cardBodyEL);
+                cardBodyEL.append(windEl, humidityEl, tempEl, imgEl);
+
+                saveCity(city);
+    }
+    
+    //Function to save city to localStorage
+    function saveCity(city) {
+        var existingCities = JSON.parse(localStorage.getItem('allCities'));
+        if (existingCities == null) {   
+            existingCities = [];
+        }
+         //
+         var historyObj = {"city": city};
+         localStorage.setItem('historyObj', JSON.stringify(historyObj));
+         existingCities.unshift(historyObj);
+         localStorage.setItem('allCities', JSON.stringify(existingCities));
+         console.log(existingCities);
+         //
+        displayHistory(existingCities, city);
+    };   
+
+    //function to create and append history items
+    function displayHistory(existingCities, city) {
+        for (var i = 0; i < existingCities.length; i++) {
+            var cityHistory = $('<li>').text(city).addClass('history-item');
+            historyList.append(cityHistory[i]);
+        }
                 //clear current-results for new content
                 currentResults.empty();
 
