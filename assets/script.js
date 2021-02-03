@@ -35,7 +35,14 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(function (data) {
-               
+                //just checking up on things :)
+                console.log(data); 
+                console.log('name/title ' + data.name);
+                console.log('wind speed ' + data.wind.speed);
+                console.log('humidity ' + data.main.humidity);
+                console.log('temp ' + data.main.temp); 
+                console.log('longitude ' + data.coord.lon);
+                console.log('latitude ' + data.coord.lat);
                 //clear current-results for new content
                 currentResults.empty();
 
