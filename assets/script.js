@@ -44,28 +44,28 @@ $(document).ready(function() {
                 console.log('longitude ' + data.coord.lon);
                 console.log('latitude ' + data.coord.lat);
 
-                 //display the weather icon
-                 var iconCode = data.weather[0].icon;
-                 console.log('iconCode value ' + iconCode);
-                 var iconUrl = 'https://openweathermap.org/img/w/' + iconCode + '.png';
-                 var imgEl = $('<img>').attr('src', iconUrl);
-                 currentResults.append(imgEl);
- 
-             })
- 
-                 //clear current-results for new content
-                 currentResults.empty();
- 
-                 //create html elements
-                 var titleEl = $('<h3>');
-                 var cardEl = $('<div>');
-                 var cardBodyEL = $('<div>');
-                 var windEl = $('<p>');
-                 var humidityEl = $('<p>');
-                 var tempEl = $('<p>');
-                 var imgEl = $('<img>');
+                //display the weather icon
+                var iconCode = data.weather[0].icon;
+                console.log('iconCode value ' + iconCode);
+                var iconUrl = 'https://openweathermap.org/img/w/' + iconCode + '.png';
+                var imgEl = $('<img>').attr('src', iconUrl);
+                currentResults.append(imgEl);
 
-                 //append
+            })
+
+                //clear current-results for new content
+                currentResults.empty();
+
+                //create html elements
+                var titleEl = $('<h3>');
+                var cardEl = $('<div>');
+                var cardBodyEL = $('<div>');
+                var windEl = $('<p>');
+                var humidityEl = $('<p>');
+                var tempEl = $('<p>');
+                var imgEl = $('<img>');
+
+                //append
                 currentResults.append(titleEl);
                 titleEl.append(cardEl);
                 cardEl.append(cardBodyEL);
@@ -96,12 +96,6 @@ $(document).ready(function() {
             var cityHistory = $('<li>').text(city).addClass('history-item');
             historyList.append(cityHistory[i]);
         }
-                //clear current-results for new content
-                currentResults.empty();
-
-               
-    
-    
         
         //clear input field
         $('#city-input').val("");
@@ -133,4 +127,29 @@ $(document).ready(function() {
 })
 
 
+//gets the "current api"
+// var requestCurrentUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey;
+// var currentResultsEl = $('#current-results');
 
+//history list
+
+//create html elements for display
+// function printResults(resultObj) {
+//     console.log(resultObj);
+
+//     var resultCard = $("<div>");
+//     resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
+
+//     var resultBody = $("<div>");
+//     resultBody.classList.add('card-body');
+//     resultCard.append(resultBody);
+
+//     var titleEl = $('<h3>');
+//     titleEl.textContent = resultObj.city;
+
+//     var bodyContentEl = $('<p>');
+//     bodyContentEl.innerHTML +=
+//         '<strong> Date: ' + resultObj.date + '</strong><br/>';
+// }
+
+        //not complete
