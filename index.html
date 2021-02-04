@@ -8,86 +8,43 @@
     <link rel="stylesheet" href="assets/style.css"></link>
 </head>
 <body>
-    <!--Aside search element that changes to full witdth when screen md or less-->
-    <h1 class="text-light bg-dark text-center">Weather Dashboard</h1>
-    <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
+    
+    <main class="container-fluid">
         
-        <!--search column-->
-        <div class="col-3 bg-light mt-3">
-          <h4>Search for a city</h4>
-          <form id="search-el" class="form-group mb-2">
-            <input id="city-input" class="form-input w-100" type="text" placeholder=""/>
-            <button id="search-btn" class="btn btn-info btn-block">Search</button>
-          </form>
-          <ul id="history-list">
-              <!--search history elements will display here-->
-          </ul>
-        </div>
-        
-        <!--results will display here-->
-        <div class="col-9 mt-3 text-dark">  
-            <div class="card">
-                <div id="current-results" class="card-body">
-                    <!--current weather will generate here-->
-                </div> 
-            </div>
-            <div class="row" id="forcast-results">
-                <!--future weather will generate here-->
-            </div>
-        </div>
-    </div>
-
+        <h1 class="text-light bg-dark text-center">Weather Dashboard</h1>
+        <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
             
+            <!--search column-->
+            <aside class="col-sm-3 bg-light m-3">
+                <h4>Search for a city</h4>
+                <form id="search-el" class="form-group mb-2">
+                    <input id="city-input" class="form-input w-100" type="text" placeholder=""/>
+                    <button id="search-btn" class="btn btn-info btn-block">Search</button>
+                </form>
+                <ul id="history-list">
+                <!--search history elements will display here-->
+                </ul>
+            </aside>
             
-                    <!-- <img class="card-img-top" src="" alt="weather image">
-                    <div class="card-body">
-                      <h4 class="card-title"></h4>
-                      <p class="card-text"></p>
-                      <a href="#" class="btn btn-primary">See Profile</a>
-                    </div> -->
-            
-
-            <!--5 day results-->
-            
-                <!-- <div class="card-deck">
-                    <div class="card bg-primary">
-                    <div class="card-body text-center">
-                        <p class="card-text">Some text inside the first card</p>
-                    </div>
-                    </div>
-                    <div class="card bg-warning">
-                    <div class="card-body text-center">
-                        <p class="card-text">Some text inside the second card</p>
-                    </div>
-                    </div>
-                    <div class="card bg-success">
-                    <div class="card-body text-center">
-                        <p class="card-text">Some text inside the third card</p>
-                    </div>
-                    </div>
-                    <div class="card bg-danger">
-                    <div class="card-body text-center">
-                        <p class="card-text">Some text inside the fourth card</p>
-                    </div>
-                    </div>
-                    <div class="card bg-primary">
-                    <div class="card-body text-center">
-                        <p class="card-text">Some text inside the first card</p>
-                    </div>
-                    </div>
-                </div> -->
-            
-            
-            
+            <!--results column-->
+            <section class="col-sm-8 mt-3 text-dark">  
+                <div class="row" id="current-results">
                 
-     
+                        <!--current weather will generate here-->
+                     
+                </div>
 
-    
+                <div class="row" id="forcast-results">
 
-    
+                    <!--future weather will generate here-->
+                    
+                </div>
+            </section>
+        </div>
+    </main>
 
-
-
+            
+            
 
     <!--script tags-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -11,9 +11,7 @@ $(document).ready(function() {
 
 
     //universal variables
-    var apiKey = 'e3171896dd984662b81687f80e4b2acd';
     var searchBtn = $('#search-btn');
-    var searchEl = $('#search-el');
     var historyList = $('#history-list');
     var currentResults = $('#current-results');
     var forcastResults = $('#forcast-results');
@@ -34,7 +32,7 @@ $(document).ready(function() {
     })
 
     //function to generate data used for the current weather display
-    function searchCurrentApi(city) {
+    function searchCurrentApi(city, uvEl) {
         console.log(city);
         var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
         //fetch with customized url
@@ -52,6 +50,10 @@ $(document).ready(function() {
                 console.log('longitude ' + data.coord.lon);
                 console.log('latitude ' + data.coord.lat);
 
+                //will be used to find uv index
+                var lat = data.coord.lat;
+                var lon = data.coord.lon;
+
                 //clear current-results for new content
                 currentResults.empty();
 
@@ -60,6 +62,9 @@ $(document).ready(function() {
                 console.log(currentDate);
 
                 //create html elements for current weather section
+                var card = $('<div>').addClass('card col-sm');
+                var cardBody = $('<div>').addClass('card-body');
+
                 var titleEl = $('<h3>').addClass("card-title");
                 titleEl.text(data.name + ' ' + currentDate);
                 //var cardEl = $('<div>').classList.add("");
@@ -79,11 +84,16 @@ $(document).ready(function() {
                 var iconUrl = 'https://openweathermap.org/img/w/' + iconCode + '.png';
                 var imgEl = $('<img>').attr('src', iconUrl);
                 
-                //append to the card-body class
-                currentResults.append(titleEl, windEl, humidityEl, tempEl, imgEl);
+                //append
+                cardBody.append(titleEl);
+                titleEl.append(imgEl);
+                cardBody.append(windEl, humidityEl, tempEl, uvEl);
+                card.append(cardBody);
+                currentResults.append(card);
                 
                 searchForcastApi(city)
                 saveCity(city);
+                findUv(lat, lon, currentResults);
                 
             })
     }
@@ -136,7 +146,9 @@ $(document).ready(function() {
 
                         colEl.append(cardEl);
                         cardEl.append(cardBodyEl);
-                        cardBodyEl.append(dateEl, forcastImageEl, tempEl, humidEl);
+                        cardBodyEl.append(dateEl);
+                        dateEl.append(forcastImageEl);
+                        cardBodyEl.append(tempEl, humidEl);
                         forcastResults.append(colEl);
                          
                 }
@@ -145,14 +157,56 @@ $(document).ready(function() {
 
         
     }
-    //for uv index 
-    //var requestForcastUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
-    //
-    // var lon = data.coord.lon;
-    //     var lat = data.coord.lat;
-    //     console.log('forcast: ' + city);
 
+
+    //for uv index 
+    function findUv(lat, lon, currentResults) {
+        console.log('lat ' + lat);
+        console.log('lon' + lon);
+
+        //new customized url
+        var uvUrl = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
     
+        fetch(uvUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            console.log('uvi' + data.value);
+
+            //create uv element
+            var uvEl = $('<p>').addClass('card-text');
+            uvEl.text('UV Index: ' + data.value);
+
+            console.log('uvel ' + uvEl);
+            console.log(typeof uvEl);
+
+            cardBody.append(uvEl);
+
+            
+            //console.log claims this is not a function....:(
+            //var label = $('<span>').addClass('label label-success');
+            //uvEl.insertAdjacentElement('afterend', label);
+            
+            //label to alert uv status and append 
+            var label = $('<span>').addClass('label');
+
+            if (data.value < 3) {
+                label.addClass('label-success bg-success').text(' low ');
+                uvEl.append(label);
+            } else if (data.value < 5) {
+                label.addClass('label-warning bg-warning').text(' moderate ');
+                uvEl.append(label);
+            } else {
+                label.addClass('label-danger bg-danger').text(' high ');
+                uvEl.append(label);
+            }
+
+        })
+    }
+    
+
     //Function to save city to localStorage
     function saveCity(city) {
         var existingCities = JSON.parse(localStorage.getItem('allCities'));
@@ -192,6 +246,8 @@ $(document).ready(function() {
         //clear input field
         $('#city-input').val("");
     }
+
+
 
 
     //run it! 
