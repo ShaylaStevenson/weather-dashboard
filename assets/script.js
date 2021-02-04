@@ -23,8 +23,15 @@ $(document).ready(function() {
     function buttonHandel(event) {
         event.preventDefault();
         var city = $('#city-input').val();
+
         searchCurrentApi(city);
     }
+
+    //or if list item is clicked, run that value through search
+    $(document).on("click", "li", function() {
+        var pastCity = $(this);
+        searchCurrentApi(pastCity.text());
+    })
 
     //function to generate data used for the current weather display
     function searchCurrentApi(city) {
@@ -115,13 +122,11 @@ $(document).ready(function() {
                         //create html elements for forcast section
                         var colEl = $('<div>').addClass('col-2 m-1');
 
-                        var cardEl = $('<div>').addClass('card').attr('id', [i]);
-                        var cardBodyEl = $('<div>').addClass('card-body bg-success').attr('id', [i]);
-                        
+                        var cardEl = $('<div>').addClass('card');
+                        var cardBodyEl = $('<div>').addClass('card-body bg-success');
+
                         var dateEl = $('<h4>').addClass('card-title');
-                        dateEl.text(data.list[i].dt_txt);
-                        console.log(dateEl);
-                        console.log(dateEl[0]);
+                        dateEl.text(new Date(data.list[i].dt_txt).toLocaleDateString());
 
                         var tempEl = $('<p>').addClass('card-text');
                         tempEl.text('Temperature: ' + data.list[i].main.temp + '\xB0F');
@@ -166,7 +171,6 @@ $(document).ready(function() {
         displayHistory(existingCities, city);
     };   
 
-    
     //function to create and append history items
     function displayHistory(existingCities, city) {     
         console.log(typeof existingCities);
@@ -175,6 +179,8 @@ $(document).ready(function() {
             var cityHistory = $('<li>').text(city).addClass('history-item').attr('value', 'existingCities[i]');
             historyList.append(cityHistory[i]);
          }
+
+         
 
         // $.each(existingCities, function(index, value) {
         //     var cityHistory = $('<li>').text(value).addClass('history-item').attr('value', 'existingCities[i]');
@@ -186,11 +192,13 @@ $(document).ready(function() {
         //clear input field
         $('#city-input').val("");
     }
-       
-    
 
 
+    //run it! 
     searchBtn.on("click", buttonHandel);
+    
+        
+    
 
 
   
