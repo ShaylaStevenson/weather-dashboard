@@ -18,6 +18,7 @@ $(document).ready(function() {
     var currentResults = $('#current-results');
     var forcastResults = $('#forcast-results');
 
+
     //get the value of the city search
     function buttonHandel(event) {
         event.preventDefault();
@@ -44,35 +45,48 @@ $(document).ready(function() {
                 console.log('longitude ' + data.coord.lon);
                 console.log('latitude ' + data.coord.lat);
 
+                //clear current-results for new content
+                currentResults.empty();
+
+                //get current date from momentjs
+                var currentDate = moment().format('MM[/]DD[/]YY');
+                console.log(currentDate);
+
+                //create html elements for current weather section
+                var titleEl = $('<h3>').addClass("card-title");
+                titleEl.text(data.name + ' ' + currentDate);
+                //var cardEl = $('<div>').classList.add("");
+                //var cardBodyEL = $('<div>');
+                var windEl = $('<p>').addClass("card-text");
+                windEl.text('Wind Speed: ' + data.wind.speed + ' mph');
+        
+                var humidityEl = $('<p>').addClass("card-text");
+                humidityEl.text('Humidity: ' + data.main.humidity);
+
+                var tempEl = $('<p>').addClass("card-text");
+                tempEl.text('Temperature :' + data.main.temp + '&#176 ' + 'F');
+
                 //display the weather icon
                 var iconCode = data.weather[0].icon;
                 console.log('iconCode value ' + iconCode);
                 var iconUrl = 'https://openweathermap.org/img/w/' + iconCode + '.png';
                 var imgEl = $('<img>').attr('src', iconUrl);
-                currentResults.append(imgEl);
-
-            })
-
-                //clear current-results for new content
-                currentResults.empty();
-
-                //create html elements
-                var titleEl = $('<h3>');
-                var cardEl = $('<div>');
-                var cardBodyEL = $('<div>');
-                var windEl = $('<p>');
-                var humidityEl = $('<p>');
-                var tempEl = $('<p>');
-                var imgEl = $('<img>');
-
-                //append
-                currentResults.append(titleEl);
-                titleEl.append(cardEl);
-                cardEl.append(cardBodyEL);
-                cardBodyEL.append(windEl, humidityEl, tempEl, imgEl);
-
+                
+                //append to the card-body class
+                currentResults.append(titleEl, windEl, humidityEl, tempEl, imgEl);
+                
+                searchForcastApi(city)
                 saveCity(city);
+                
+            })
     }
+
+    //function to generate data to be used in the forcast weather section
+    function searchForcastApi(city) {
+        console.log('forcast: ' + city);
+        //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+    }
+
     
     //Function to save city to localStorage
     function saveCity(city) {
@@ -86,16 +100,28 @@ $(document).ready(function() {
          existingCities.unshift(historyObj);
          localStorage.setItem('allCities', JSON.stringify(existingCities));
          console.log(existingCities);
+         //console.log(allCities);
+         //console.log(typeof allCities);
          //
         displayHistory(existingCities, city);
     };   
 
+    
     //function to create and append history items
-    function displayHistory(existingCities, city) {
+    function displayHistory(existingCities, city) {     
+        console.log(typeof existingCities);
+
         for (var i = 0; i < existingCities.length; i++) {
-            var cityHistory = $('<li>').text(city).addClass('history-item');
+            var cityHistory = $('<li>').text(city).addClass('history-item').attr('value', 'existingCities[i]');
             historyList.append(cityHistory[i]);
-        }
+         }
+
+        // $.each(existingCities, function(index, value) {
+        //     var cityHistory = $('<li>').text(value).addClass('history-item').attr('value', 'existingCities[i]');
+        //     historyList.append(cityHistory);
+        // })
+
+        
         
         //clear input field
         $('#city-input').val("");

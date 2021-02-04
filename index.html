@@ -9,13 +9,13 @@
 </head>
 <body>
     <!--Aside search element that changes to full witdth when screen md or less-->
-    <h1 class="text-light bg-dark text-center mb-0">Weather Dashboard</h1>
+    <h1 class="text-light bg-dark text-center">Weather Dashboard</h1>
     <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
         
-        <div class="col-12 col-md-3 bg-light m-3">
+        <div class="col-3 bg-light mt-3">
           <h4>Search for a city</h4>
           <form id="search-el" class="form-group mb-2">
-            <input id="city-input" class="form-input w-100" type="text" placeholder="Find city..."/>
+            <input id="city-input" class="form-input w-100" type="text" placeholder=""/>
             <button id="search-btn" class="btn btn-info btn-block">Search</button>
           </form>
           <ul id="history-list">
@@ -23,11 +23,15 @@
           </ul>
         </div>
     <!--Main weather display that changes to full width when screen md or less-->
-        <div class="col-12 col-md-9 p-3 text-light">
+        <div class="col-9 mt-3 text-dark">
             
 
             <!--current forcast elements will display here-->
-            <div id="current-results"></div>
+            <div class="card">
+                <div id="current-results" class="card-body">
+                    <!--current forcast will generate here-->
+                </div> 
+            </div>
             <div id="forcast-results"></div>
         </div>
     </div>
@@ -86,6 +90,7 @@
 
     <!--script tags-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
     <script src="assets/script.js"></script>
