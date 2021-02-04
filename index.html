@@ -12,6 +12,7 @@
     <h1 class="text-light bg-dark text-center">Weather Dashboard</h1>
     <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
         
+        <!--search column-->
         <div class="col-3 bg-light mt-3">
           <h4>Search for a city</h4>
           <form id="search-el" class="form-group mb-2">
@@ -22,17 +23,17 @@
               <!--search history elements will display here-->
           </ul>
         </div>
-    <!--Main weather display that changes to full width when screen md or less-->
-        <div class="col-9 mt-3 text-dark">
-            
-
-            <!--current forcast elements will display here-->
+        
+        <!--results will display here-->
+        <div class="col-9 mt-3 text-dark">  
             <div class="card">
                 <div id="current-results" class="card-body">
-                    <!--current forcast will generate here-->
+                    <!--current weather will generate here-->
                 </div> 
             </div>
-            <div id="forcast-results"></div>
+            <div class="row" id="forcast-results">
+                <!--future weather will generate here-->
+            </div>
         </div>
     </div>
 

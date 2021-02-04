@@ -61,7 +61,7 @@ $(document).ready(function() {
                 windEl.text('Wind Speed: ' + data.wind.speed + ' mph');
         
                 var humidityEl = $('<p>').addClass("card-text");
-                humidityEl.text('Humidity: ' + data.main.humidity);
+                humidityEl.text('Humidity: ' + data.main.humidity + '%');
 
                 var tempEl = $('<p>').addClass("card-text");
                 tempEl.text('Temperature: ' + data.main.temp + '\xB0F');
@@ -84,6 +84,10 @@ $(document).ready(function() {
     //function to generate data to be used in the forcast weather section
     function searchForcastApi(city) {
         console.log('forcast: ' + city);
+
+        //clear current-results for new content
+        forcastResults.empty();
+
         var requestForcastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
         //fetch with new customized url
         fetch(requestForcastUrl)
@@ -93,8 +97,9 @@ $(document).ready(function() {
             .then(function (data) {
                 console.log(data);
 
-                //I need to select only one time array per day: noon date icon temp humidity
+                //I need to select only one time array per day: noon 
                 for (var i = 2; i < data.list.length; i += 8) {
+                    
                     console.log('date ' + data.list[i].dt_txt);
                     console.log('icon ' + data.list[i].weather[0].icon);
                     console.log('temp ' + data.list[i].main.temp + '\xB0F');
@@ -105,9 +110,30 @@ $(document).ready(function() {
                     console.log('iconCode value ' + forcastIcon);
                     var forcastIconUrl = 'https://openweathermap.org/img/w/' + forcastIcon + '.png';
                     var forcastImageEl = $('<img>').attr('src', forcastIconUrl);
-                    currentResults.append(forcastImageEl);
-
                     
+                    
+                        //create html elements for forcast section
+                        var colEl = $('<div>').addClass('col-2 m-1');
+
+                        var cardEl = $('<div>').addClass('card').attr('id', [i]);
+                        var cardBodyEl = $('<div>').addClass('card-body bg-success').attr('id', [i]);
+                        
+                        var dateEl = $('<h4>').addClass('card-title');
+                        dateEl.text(data.list[i].dt_txt);
+                        console.log(dateEl);
+                        console.log(dateEl[0]);
+
+                        var tempEl = $('<p>').addClass('card-text');
+                        tempEl.text('Temperature: ' + data.list[i].main.temp + '\xB0F');
+
+                        var humidEl = $('<p>').addClass('card-text');
+                        humidEl.text('Humidity: ' + data.list[i].main.humidity + '%');
+
+                        colEl.append(cardEl);
+                        cardEl.append(cardBodyEl);
+                        cardBodyEl.append(dateEl, forcastImageEl, tempEl, humidEl);
+                        forcastResults.append(colEl);
+                         
                 }
 
             })
