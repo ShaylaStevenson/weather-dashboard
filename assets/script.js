@@ -64,7 +64,7 @@ $(document).ready(function() {
                 humidityEl.text('Humidity: ' + data.main.humidity);
 
                 var tempEl = $('<p>').addClass("card-text");
-                tempEl.text('Temperature :' + data.main.temp + '&#176 ' + 'F');
+                tempEl.text('Temperature: ' + data.main.temp + '\xB0F');
 
                 //display the weather icon
                 var iconCode = data.weather[0].icon;
@@ -84,8 +84,42 @@ $(document).ready(function() {
     //function to generate data to be used in the forcast weather section
     function searchForcastApi(city) {
         console.log('forcast: ' + city);
-        //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+        var requestForcastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
+        //fetch with new customized url
+        fetch(requestForcastUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data);
+
+                //I need to select only one time array per day: noon date icon temp humidity
+                for (var i = 2; i < data.list.length; i += 8) {
+                    console.log('date ' + data.list[i].dt_txt);
+                    console.log('icon ' + data.list[i].weather[0].icon);
+                    console.log('temp ' + data.list[i].main.temp + '\xB0F');
+                    console.log('humidity ' + data.list[i].main.humidity);
+
+                    //display the weather icon
+                    var forcastIcon = data.list[i].weather[0].icon;
+                    console.log('iconCode value ' + forcastIcon);
+                    var forcastIconUrl = 'https://openweathermap.org/img/w/' + forcastIcon + '.png';
+                    var forcastImageEl = $('<img>').attr('src', forcastIconUrl);
+                    currentResults.append(forcastImageEl);
+
+                    
+                }
+
+            })
+
+        
     }
+    //for uv index 
+    //var requestForcastUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
+    //
+    // var lon = data.coord.lon;
+    //     var lat = data.coord.lat;
+    //     console.log('forcast: ' + city);
 
     
     //Function to save city to localStorage
