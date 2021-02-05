@@ -62,10 +62,10 @@ $(document).ready(function() {
                 console.log(currentDate);
 
                 //create html elements for current weather section
-                var card = $('<div>').addClass('card col-sm');
-                var cardBody = $('<div>').addClass('card-body');
+                var card = $('<div>').addClass('card');
+                var cardBody = $('<div>').addClass('card-body p-1');
 
-                var titleEl = $('<h3>').addClass("card-title");
+                var titleEl = $('<h3>').addClass('card-title');
                 titleEl.text(data.name + ' ' + currentDate);
                 //var cardEl = $('<div>').classList.add("");
                 //var cardBodyEL = $('<div>');
@@ -93,7 +93,7 @@ $(document).ready(function() {
                 
                 searchForcastApi(city)
                 saveCity(city);
-                findUv(lat, lon, currentResults);
+                findUv(lat, lon, cardBody);
                 
             })
     }
@@ -130,16 +130,16 @@ $(document).ready(function() {
                     
                     
                         //create html elements for forcast section
-                        var colEl = $('<div>').addClass('col-2 m-1');
+                        var colEl = $('<div>').addClass('col-md-2 mb-1 p-0');
 
                         var cardEl = $('<div>').addClass('card');
-                        var cardBodyEl = $('<div>').addClass('card-body bg-success');
+                        var cardBodyEl = $('<div>').addClass('card-body p-1');
 
                         var dateEl = $('<h4>').addClass('card-title');
                         dateEl.text(new Date(data.list[i].dt_txt).toLocaleDateString());
 
                         var tempEl = $('<p>').addClass('card-text');
-                        tempEl.text('Temperature: ' + data.list[i].main.temp + '\xB0F');
+                        tempEl.text('Temp: ' + data.list[i].main.temp + '\xB0F');
 
                         var humidEl = $('<p>').addClass('card-text');
                         humidEl.text('Humidity: ' + data.list[i].main.humidity + '%');
@@ -160,7 +160,7 @@ $(document).ready(function() {
 
 
     //for uv index 
-    function findUv(lat, lon, currentResults) {
+    function findUv(lat, lon, cardBody) {
         console.log('lat ' + lat);
         console.log('lon' + lon);
 

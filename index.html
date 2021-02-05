@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/style.css"></link>
 </head>
@@ -11,15 +13,16 @@
     
     <main class="container-fluid">
         
-        <h1 class="text-light bg-dark text-center">Weather Dashboard</h1>
-        <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
+        <h1 class="text-light bg-dark text-center py-2 mb-0">Weather Dashboard</h1>
+        <div id="main-row" class="row">
+            
             
             <!--search column-->
-            <aside class="col-sm-3 bg-light m-3">
-                <h4>Search for a city</h4>
-                <form id="search-el" class="form-group mb-2">
-                    <input id="city-input" class="form-input w-100" type="text" placeholder=""/>
-                    <button id="search-btn" class="btn btn-info btn-block">Search</button>
+            <aside class="col-md-3 m-2">
+                <h4 class="pt-2 mb-2">Search for a city</h4>
+                <form class="form-group mb-2">
+                    <input id="city-input" class="form-input w-100 mb-1" type="text" placeholder=""/>
+                    <button id="search-btn" class="btn btn-dark btn-block">Search</button>
                 </form>
                 <ul id="history-list">
                 <!--search history elements will display here-->
@@ -27,17 +30,16 @@
             </aside>
             
             <!--results column-->
-            <section class="col-sm-8 mt-3 text-dark">  
-                <div class="row" id="current-results">
+            <section class="col-md-8 m-2 text-dark">  
+                <div id="current-results">
                 
                         <!--current weather will generate here-->
-                     
                 </div>
 
-                <div class="row" id="forcast-results">
+                <div class="row align-content-center mx-0 mt-2" id="forcast-results">
 
                     <!--future weather will generate here-->
-                    
+
                 </div>
             </section>
         </div>
