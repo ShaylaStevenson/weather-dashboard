@@ -23,17 +23,17 @@ aside {
 
 }
 
-#forcast-results {
+#forecast-results {
     display: flex;
     justify-content: space-between;
 }
 
-#forcast-results .card-body {
+#forecast-results .card-body {
     font-size: calc(8px + .7vw); 
     background-color: lightgray;
 }
 
-#forcast-results .card-title {
+#forecast-results .card-title {
     font-size: calc(10px + .7vw);
     font-weight: bold;
 }

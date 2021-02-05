@@ -1,10 +1,10 @@
 $(document).ready(function() {
-
+    
     //universal variables
     var searchBtn = $('#search-btn');
     var historyList = $('#history-list');
     var currentResults = $('#current-results');
-    var forcastResults = $('#forcast-results');
+    var forecastResults = $('#forecast-results');
     var cities = [];
     var cityInput = $('#city-input');    
 
@@ -95,23 +95,23 @@ $(document).ready(function() {
                 card.append(cardBody);
                 currentResults.append(card);
                 
-                searchForcastApi(city)
+                searchForecastApi(city)
                 //saveCity(city);
                 findUv(lat, lon, cardBody);
                 
             })
     }
 
-    //function to generate data to be used in the forcast weather section
-    function searchForcastApi(city) {
-        console.log('forcast: ' + city);
+    //function to generate data to be used in the forecast weather section
+    function searchForecastApi(city) {
+        console.log('forecast: ' + city);
 
         //clear current-results for new content
-        forcastResults.empty();
+        forecastResults.empty();
 
-        var requestForcastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
+        var requestForecastUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=e3171896dd984662b81687f80e4b2acd';
         //fetch with new customized url
-        fetch(requestForcastUrl)
+        fetch(requestForecastUrl)
             .then(function (response) {
                 return response.json();
             })
@@ -127,12 +127,12 @@ $(document).ready(function() {
                     console.log('humidity ' + data.list[i].main.humidity);
 
                     //display the weather icon
-                    var forcastIcon = data.list[i].weather[0].icon;
-                    console.log('iconCode value ' + forcastIcon);
-                    var forcastIconUrl = 'https://openweathermap.org/img/w/' + forcastIcon + '.png';
-                    var forcastImageEl = $('<img>').attr('src', forcastIconUrl);
+                    var forecastIcon = data.list[i].weather[0].icon;
+                    console.log('iconCode value ' + forecastIcon);
+                    var forecastIconUrl = 'https://openweathermap.org/img/w/' + forecastIcon + '.png';
+                    var forecastImageEl = $('<img>').attr('src', forecastIconUrl);
                     
-                    //create html elements for forcast section
+                    //create html elements for forecast section
                     var colEl = $('<div>').addClass('col-md-2 mb-1 p-0');
 
                     var cardEl = $('<div>').addClass('card');
@@ -150,9 +150,9 @@ $(document).ready(function() {
                     colEl.append(cardEl);
                     cardEl.append(cardBodyEl);
                     cardBodyEl.append(dateEl);
-                    dateEl.append(forcastImageEl);
+                    dateEl.append(forecastImageEl);
                     cardBodyEl.append(tempEl, humidEl);
-                    forcastResults.append(colEl);           
+                    forecastResults.append(colEl);           
                 }
             }) 
     }
