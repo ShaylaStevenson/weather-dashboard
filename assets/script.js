@@ -1,27 +1,31 @@
-//Todos
-//Use form inputs to create HTML page
-//Display current and future conditions
-//Search history list
-//Current weather includes: city name, date, icon, temperature, humidity, windspeed, uv index
-//uv index changes color for favorable, moderate, severe
-//future weather includes: 5 days, date, icon, temp, humidity
-//When I click on search history item, get current and future weather
-
 $(document).ready(function() {
-
 
     //universal variables
     var searchBtn = $('#search-btn');
     var historyList = $('#history-list');
     var currentResults = $('#current-results');
     var forcastResults = $('#forcast-results');
+    var cities = [];
+    var cityInput = $('#city-input');    
 
 
     //get the value of the city search
     function buttonHandel(event) {
         event.preventDefault();
-        var city = $('#city-input').val();
+        
+        var city = cityInput.val();
 
+        //if no input, end function
+        if (city === '') {
+            return;
+        }
+
+        //push to array for localStorage and clear field
+        cities.push(city);
+        cityInput.val('');
+
+        storeCities();
+        renderCities();
         searchCurrentApi(city);
     }
 
@@ -92,7 +96,7 @@ $(document).ready(function() {
                 currentResults.append(card);
                 
                 searchForcastApi(city)
-                saveCity(city);
+                //saveCity(city);
                 findUv(lat, lon, cardBody);
                 
             })
@@ -128,36 +132,30 @@ $(document).ready(function() {
                     var forcastIconUrl = 'https://openweathermap.org/img/w/' + forcastIcon + '.png';
                     var forcastImageEl = $('<img>').attr('src', forcastIconUrl);
                     
-                    
-                        //create html elements for forcast section
-                        var colEl = $('<div>').addClass('col-md-2 mb-1 p-0');
+                    //create html elements for forcast section
+                    var colEl = $('<div>').addClass('col-md-2 mb-1 p-0');
 
-                        var cardEl = $('<div>').addClass('card');
-                        var cardBodyEl = $('<div>').addClass('card-body p-1');
+                    var cardEl = $('<div>').addClass('card');
+                    var cardBodyEl = $('<div>').addClass('card-body p-1');
 
-                        var dateEl = $('<h4>').addClass('card-title');
-                        dateEl.text(new Date(data.list[i].dt_txt).toLocaleDateString());
+                    var dateEl = $('<h4>').addClass('card-title');
+                    dateEl.text(new Date(data.list[i].dt_txt).toLocaleDateString());
 
-                        var tempEl = $('<p>').addClass('card-text');
-                        tempEl.text('Temp: ' + data.list[i].main.temp + '\xB0F');
+                    var tempEl = $('<p>').addClass('card-text');
+                    tempEl.html('Temp:<br/>' + data.list[i].main.temp + '\xB0F');
 
-                        var humidEl = $('<p>').addClass('card-text');
-                        humidEl.text('Humidity: ' + data.list[i].main.humidity + '%');
+                    var humidEl = $('<p>').addClass('card-text');
+                    humidEl.html('Humidity:<br/>' + data.list[i].main.humidity + '%');
 
-                        colEl.append(cardEl);
-                        cardEl.append(cardBodyEl);
-                        cardBodyEl.append(dateEl);
-                        dateEl.append(forcastImageEl);
-                        cardBodyEl.append(tempEl, humidEl);
-                        forcastResults.append(colEl);
-                         
+                    colEl.append(cardEl);
+                    cardEl.append(cardBodyEl);
+                    cardBodyEl.append(dateEl);
+                    dateEl.append(forcastImageEl);
+                    cardBodyEl.append(tempEl, humidEl);
+                    forcastResults.append(colEl);           
                 }
-
-            })
-
-        
+            }) 
     }
-
 
     //for uv index 
     function findUv(lat, lon, cardBody) {
@@ -183,11 +181,6 @@ $(document).ready(function() {
             console.log(typeof uvEl);
 
             cardBody.append(uvEl);
-
-            
-            //console.log claims this is not a function....:(
-            //var label = $('<span>').addClass('label label-success');
-            //uvEl.insertAdjacentElement('afterend', label);
             
             //label to alert uv status and append 
             var label = $('<span>').addClass('label');
@@ -202,104 +195,45 @@ $(document).ready(function() {
                 label.addClass('label-danger bg-danger').text(' high ');
                 uvEl.append(label);
             }
-
         })
     }
     
+    //function to append items to history list
+    // :(   will prepend all cities again instead of just the most recent
+    // :(   but, the extra li items clear on refresh...?
+    function renderCities() {
+        historyList.innerHTML = '';
+        
+        for (var i = 0; i < cities.length; i++) {
+            var item = cities[i];
+            console.log(item);
 
-    //Function to save city to localStorage
-    function saveCity(city) {
-        var existingCities = JSON.parse(localStorage.getItem('allCities'));
-        if (existingCities == null) {   
-            existingCities = [];
+            var li = $('<li>');
+            li.text(item);
+            console.log(li);
+
+            historyList.prepend(li);
         }
-         //
-         var historyObj = {"city": city};
-         localStorage.setItem('historyObj', JSON.stringify(historyObj));
-         existingCities.unshift(historyObj);
-         localStorage.setItem('allCities', JSON.stringify(existingCities));
-         console.log(existingCities);
-         //console.log(allCities);
-         //console.log(typeof allCities);
-         //
-        displayHistory(existingCities, city);
-    };   
-
-    //function to create and append history items
-    function displayHistory(existingCities, city) {     
-        console.log(typeof existingCities);
-
-        for (var i = 0; i < existingCities.length; i++) {
-            var cityHistory = $('<li>').text(city).addClass('history-item').attr('value', 'existingCities[i]');
-            historyList.append(cityHistory[i]);
-         }
-
-         
-
-        // $.each(existingCities, function(index, value) {
-        //     var cityHistory = $('<li>').text(value).addClass('history-item').attr('value', 'existingCities[i]');
-        //     historyList.append(cityHistory);
-        // })
-
-        
-        
-        //clear input field
-        $('#city-input').val("");
     }
 
+    //this function will run on load to display history list
+    function init() {
+        var storedCities = JSON.parse(localStorage.getItem('cities'));
+        if (storedCities !== null) {
+            cities = storedCities;
+        }
+        renderCities();
+    }
 
-
+    //set items to localStorage as a string
+    function storeCities() {
+        localStorage.setItem('cities', JSON.stringify(cities));
+    }
 
     //run it! 
     searchBtn.on("click", buttonHandel);
-    
-        
-    
-
-
-  
-        
-
-    
-
-   
-
-
-
-
-
-
-
-
-
+    init();
 
 //End Script HERE
 })
 
-
-//gets the "current api"
-// var requestCurrentUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + apiKey;
-// var currentResultsEl = $('#current-results');
-
-//history list
-
-//create html elements for display
-// function printResults(resultObj) {
-//     console.log(resultObj);
-
-//     var resultCard = $("<div>");
-//     resultCard.classList.add('card', 'bg-light', 'text-dark', 'mb-3', 'p-3');
-
-//     var resultBody = $("<div>");
-//     resultBody.classList.add('card-body');
-//     resultCard.append(resultBody);
-
-//     var titleEl = $('<h3>');
-//     titleEl.textContent = resultObj.city;
-
-//     var bodyContentEl = $('<p>');
-//     bodyContentEl.innerHTML +=
-//         '<strong> Date: ' + resultObj.date + '</strong><br/>';
-// }
-
-        //not complete
